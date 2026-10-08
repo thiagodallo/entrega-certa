@@ -110,7 +110,7 @@ Resposta, `201 Created`:
 
 ### `POST /entregas`
 
-Requisição, enviada dois dias depois do prazo de uma atividade que vale 10:
+Requisição, enviada um dia depois do prazo de uma atividade que vale 10:
 
 ```json
 {
@@ -125,7 +125,7 @@ Resposta, `201 Created`:
 ```json
 {
   "id": 1,
-  "atividade": { "id": 1, "titulo": "API REST de tarefas", "prazo": "2026-10-06", "notaMaxima": 10.0 },
+  "atividade": { "id": 1, "titulo": "API REST de tarefas", "prazo": "2026-10-07", "notaMaxima": 10.0 },
   "aluno": { "id": 1, "nome": "Ana Souza" },
   "link": "https://github.com/aluno/trabalho-api-rest",
   "entregueEm": "2026-10-08T19:30:00",
@@ -164,6 +164,6 @@ Mensagens das regras:
 | Regra | Mensagem |
 |---|---|
 | R1 | `R1: o aluno não pertence à turma desta atividade` |
-| R2 | `R2: o prazo de entrega com atraso (3 dias) já terminou` |
+| R2 | `R2: o prazo de entrega com atraso (1 dia) já terminou` |
 | R3 | `R3: o aluno já tem uma entrega para esta atividade` e `R3: a entrega já foi corrigida e não pode ser reenviada` |
 | R4 | `R4: a nota não pode passar do teto desta entrega` |

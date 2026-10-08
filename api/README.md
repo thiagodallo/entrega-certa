@@ -68,7 +68,7 @@ Todo arquivo de classe que o grupo cria começa com um comentário dizendo o que
 # CAMADA: Service
 # RESPONSABILIDADE: regras de negócio das entregas.
 # REGRAS: R1 (só entrega quem é da turma da atividade) e
-#         R2 (atraso de até 3 dias, com teto reduzido).
+#         R2 (atraso de até 1 dia, com teto reduzido).
 # ROTAS ATENDIDAS: as de /entregas em docs/contrato-da-api.md.
 # SITUAÇÃO: montada. A lógica entra quando a rota for implementada.
 ```

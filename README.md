@@ -20,9 +20,9 @@ Projeto Final da disciplina de Backend (Engenharia de Software, SATC). **Etapa 1
 
 | Nome | GitHub |
 |---|---|
-| Thiago Dalló | [@thiagodallo](https://github.com/thiagodallo) |
-| Murilo Cambruzzi | A preencher |
-| Vinicius Fabris | A preencher |
+| Thiago de Luca Dalló | [@thiagodallo](https://github.com/thiagodallo) |
+| Murilo Claudio Cambruzzi | [@murilo-cbz](https://github.com/murilo-cbz) |
+| Vinicius Fabris dos Santos | [@ViniciusFabris](https://github.com/ViniciusFabris) |
 
 ## O problema
 
@@ -42,7 +42,7 @@ Professores recebem trabalhos por e-mail e WhatsApp e perdem o controle de quem 
 | # | Regra | Onde está no código | Rota que usa |
 |---|---|---|---|
 | R1 | Só entrega uma atividade o aluno que pertence à turma dela | `EntregaService` | `POST /entregas` |
-| R2 | Entrega até 3 dias depois do prazo é aceita, mas a nota fica limitada a 70% da nota máxima. Depois de 3 dias a entrega é recusada | `EntregaService` | `POST /entregas`, `PUT /entregas/{id}/reenvio` |
+| R2 | Entrega até 1 dia depois do prazo é aceita, mas a nota fica limitada a 70% da nota máxima. Depois disso a entrega é recusada | `EntregaService` | `POST /entregas`, `PUT /entregas/{id}/reenvio` |
 | R3 | Cada aluno tem uma única entrega por atividade. Pode reenviar enquanto ela não for corrigida; depois de corrigida, não | `EntregaService` | `POST /entregas`, `PUT /entregas/{id}/reenvio` |
 | R4 | A nota da correção não pode passar do teto da entrega: a nota máxima da atividade, ou 70% dela quando a entrega foi atrasada | `EntregaService` | `PUT /entregas/{id}/correcao` |
 
