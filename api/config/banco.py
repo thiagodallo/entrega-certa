@@ -12,7 +12,7 @@ URL_DO_BANCO = os.getenv(
     "postgresql+pg8000://entrega_certa:entrega_certa@localhost:5437/entrega_certa",
 )
 
-engine = create_engine(URL_DO_BANCO, echo=True)
+engine = create_engine(URL_DO_BANCO, echo=True, hide_parameters=True)
 fabrica_de_sessoes = sessionmaker(bind=engine, expire_on_commit=False)
 
 

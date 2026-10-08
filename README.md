@@ -1,25 +1,6 @@
-# {{Nome do Projeto}}
+# Entrega Certa
 
-> **Este é o ponto de partida do projeto do grupo.** Apague este bloco antes de entregar.
->
-> **Objetivo do exercício:** planejar e organizar um backend antes de programar tudo. O grupo cria o problema e as regras de negócio, desenha o sistema, monta a estrutura de todas as entidades, faz a API funcionar com as regras implementadas e documenta tudo neste README. O enunciado completo está em `Aula 10-11/README.md`, no repositório da disciplina.
->
-> **O que fazer, na ordem:**
->
-> 1. Copie esta pasta inteira para fora do repositório da disciplina, com o nome do projeto, e publique no GitHub. Os comandos estão no enunciado (seção "Como começar pelo template").
-> 2. Procure por `TROQUE` no projeto (`pom.xml`, `docker-compose.yml`, `OpenApiConfig.java`) e coloque o nome do projeto.
-> 3. Preencha a seção [O problema](#o-problema) deste README: o problema que o grupo criou e as regras de negócio.
-> 4. Preencha `docs/modelo-de-dominio.md` e `docs/contrato-da-api.md`.
-> 5. Crie as tabelas e as classes de todas as entidades. O passo a passo está em [src/main/java/api/README.md](src/main/java/api/README.md).
-> 6. Faça a API simples e implemente as regras de negócio.
-> 7. Termine este README: troque tudo o que está entre `{{ }}` e apague o que está marcado com *(exemplo)*. Mantenha as seções e a ordem.
-> 8. Abra o repositório no GitHub, leia o README como quem nunca viu o projeto e preencha `docs/autoavaliacao.md`.
->
-> Na primeira vez que a API sobe, antes de existir tabela e rota, o Flyway avisa `No migrations found` e o Swagger UI mostra `No operations defined in spec!`. É o esperado.
->
-> Os exemplos marcados com *(exemplo)* são de uma biblioteca. O projeto completo dela está em `Aula 10-11/exemplo-biblioteca`.
-
-{{Uma ou duas frases: o que o sistema faz e para quem. Quem nunca viu o projeto tem que entender o que ele é lendo só este parágrafo.}}
+API para o professor controlar as entregas de atividades de uma turma: quem entregou, quando entregou, se foi no prazo e qual nota cada entrega pode receber.
 
 Projeto Final da disciplina de Backend (Engenharia de Software, SATC). **Etapa 1: arquitetura do backend.**
 
@@ -39,60 +20,85 @@ Projeto Final da disciplina de Backend (Engenharia de Software, SATC). **Etapa 1
 
 | Nome | GitHub |
 |---|---|
-| {{Nome completo}} | [@{{usuario}}](https://github.com/{{usuario}}) |
-| {{Nome completo}} | [@{{usuario}}](https://github.com/{{usuario}}) |
-| {{Nome completo}} | [@{{usuario}}](https://github.com/{{usuario}}) |
+| Thiago Dalló | [@thiagodallo](https://github.com/thiagodallo) |
+| Murilo Cambruzzi | A preencher |
+| Vinicius Fabris | A preencher |
 
 ## O problema
 
-**Tema sorteado:** {{tema}}
+**Tema sorteado:** Educação e Aprendizagem
 
-{{Em 3 a 5 linhas: o problema que o grupo criou dentro do tema, quem sofre com ele hoje e o que o sistema muda.}}
+Professores recebem trabalhos por e-mail e WhatsApp e perdem o controle de quem entregou e quando. A tolerância para atraso é aplicada de cabeça, de um jeito para cada aluno, e vira discussão na hora da nota. O Entrega Certa registra cada entrega com data e hora, aplica a mesma regra de atraso para todos e impede que um trabalho já corrigido seja trocado.
 
 **Quem usa o sistema:**
 
 | Quem | O que faz no sistema |
 |---|---|
-| Bibliotecário *(exemplo)* | Cadastra livros e leitores, registra empréstimos e devoluções |
-| ... | ... |
+| Professor | Cadastra turmas, alunos e atividades, e corrige as entregas |
+| Aluno | Envia e reenvia a entrega de cada atividade da sua turma |
 
-**Regras de negócio.** No mínimo 3, criadas pelo grupo a partir do problema: o que o sistema precisa garantir ou impedir. Precisam atender à necessidade do tema e estar implementadas no código. O que só confere formato (campo obrigatório, número positivo) é validação do DTO, não regra de negócio.
+**Regras de negócio.** O que o sistema garante ou impede:
 
 | # | Regra | Onde está no código | Rota que usa |
 |---|---|---|---|
-| R1 *(exemplo)* | Um leitor não pode ter mais de 3 empréstimos em aberto | `EmprestimoService` | `POST /emprestimos` |
-| R2 | ... | ... | ... |
-| R3 | ... | ... | ... |
+| R1 | Só entrega uma atividade o aluno que pertence à turma dela | `EntregaService` | `POST /entregas` |
+| R2 | Entrega até 3 dias depois do prazo é aceita, mas a nota fica limitada a 70% da nota máxima. Depois de 3 dias a entrega é recusada | `EntregaService` | `POST /entregas`, `PUT /entregas/{id}/reenvio` |
+| R3 | Cada aluno tem uma única entrega por atividade. Pode reenviar enquanto ela não for corrigida; depois de corrigida, não | `EntregaService` | `POST /entregas`, `PUT /entregas/{id}/reenvio` |
+| R4 | A nota da correção não pode passar do teto da entrega: a nota máxima da atividade, ou 70% dela quando a entrega foi atrasada | `EntregaService` | `PUT /entregas/{id}/correcao` |
 
-**Fora do escopo:** {{o que o grupo decidiu não fazer, para o projeto caber no semestre}}
+**Fora do escopo:** login e perfis de acesso, envio de arquivos (a entrega é um link), aluno em mais de uma turma, notificações e cálculo de média final.
 
 ## Tecnologias
 
 | O quê | Qual |
 |---|---|
-| Linguagem | Java 25 |
-| Framework | Spring Boot 3.5 (Web, Validation, Data JPA) |
+| Linguagem | Python 3.12 ou mais novo |
+| Framework | FastAPI, com Pydantic para os DTOs e a validação |
+| Acesso ao banco | SQLAlchemy 2.0, com o driver pg8000 |
 | Banco de dados | PostgreSQL 16, em Docker |
-| Migrations | Flyway |
-| Documentação da API | springdoc-openapi (Swagger UI) |
+| Migrations | Alembic |
+| Documentação da API | Swagger UI, gerado pelo FastAPI |
+| Dependências | uv |
+
+### Python no lugar de Java
+
+O template e os critérios da disciplina foram escritos para Java + Spring Boot. Este projeto mantém as mesmas camadas, os mesmos nomes de classe e os mesmos endereços, com as ferramentas equivalentes:
+
+| Critério | No template (Java) | Neste projeto (Python) |
+|---|---|---|
+| P1 Sobe pelo README | `./mvnw spring-boot:run` | `uv run uvicorn api.main:app --port 8000` |
+| P2 Camadas | Pacotes em `src/main/java/api/` | Pastas em [`api/`](api): `controller`, `service`, `mapper`, `repository`, `model`, `dto`, `config` |
+| P3 Banco e entidades | Flyway, `@Entity` e `ddl-auto=validate` | Alembic em [`db/migration`](db/migration), classes do SQLAlchemy em `api/model` e a conferência de [`api/config/migracoes.py`](api/config/migracoes.py), que impede a API de subir se a entidade não bater com a tabela |
+| P4 DTOs | `record` com Bean Validation | Modelos do Pydantic em `api/dto` |
+| P5 Estrutura | Injeção pelo construtor do Spring | Construtor com `Depends` do FastAPI. Comentário no topo de cada arquivo |
+| P6 API simples | `@RestController`, `RecursoNaoEncontradoException` | `APIRouter`, e a mesma `RecursoNaoEncontradoException` em `api/service` |
+| P7 e P8 Regras | `RegraDeNegocioException` no Service | A mesma `RegraDeNegocioException`, lançada no Service |
+| Formato de erro | `ApiExceptionHandler`, `ErroDTO` | [`api_exception_handler.py`](api/controller/api_exception_handler.py), com o mesmo `ErroDTO` |
+| Swagger | springdoc-openapi | FastAPI, nos mesmos caminhos `/swagger-ui.html` e `/v3/api-docs` |
 
 ## Arquitetura
 
 A API é organizada em camadas. Uma requisição entra pelo Controller, passa pelo Service, que aplica as regras de negócio, e chega ao banco pelo Repository; a resposta faz o caminho de volta. O Mapper converte DTO em entidade e entidade em DTO.
 
-**Mapa da estrutura.** Uma linha por entidade, todas as do modelo. Em cada célula, a classe e a situação: **pronta**, **implementada** (já tem lógica), **em parte** (só uma parte das rotas) ou **montada** (criada, ligada às outras, ainda sem lógica).
+**Mapa da estrutura.** Uma linha por entidade. Em cada célula, a classe e a situação: **pronta**, **implementada** (já tem lógica), **em parte** (só uma parte das rotas), **montada** (criada, ligada às outras, ainda sem lógica) ou **a criar**.
 
 | Entidade | Migration | Model | Repository | DTOs | Mapper | Service | Controller |
 |---|---|---|---|---|---|---|---|
-| Livro *(exemplo)* | `V1__criar_livros.sql`, pronta | `Livro`, pronta | `LivroRepository`, pronto | `LivroRequestDTO`, `LivroResponseDTO`, prontos | `LivroMapper`, implementado | `LivroService`, implementado | `LivroController`, implementado |
-| ... | ... | ... | ... | ... | ... | ... | ... |
+| Turma | `V1__criar_turmas.py`, a criar | `Turma`, a criar | `TurmaRepository`, a criar | `TurmaRequestDTO`, `TurmaResponseDTO`, a criar | `TurmaMapper`, a criar | `TurmaService`, a criar | `turma_controller`, a criar |
+| Aluno | `V2__criar_alunos.py`, a criar | `Aluno`, a criar | `AlunoRepository`, a criar | `AlunoRequestDTO`, `AlunoResponseDTO`, a criar | `AlunoMapper`, a criar | `AlunoService`, a criar | `aluno_controller`, a criar |
+| Atividade | `V3__criar_atividades.py`, a criar | `Atividade`, a criar | `AtividadeRepository`, a criar | `AtividadeRequestDTO`, `AtividadeResponseDTO`, a criar | `AtividadeMapper`, a criar | `AtividadeService`, a criar | `atividade_controller`, a criar |
+| Entrega | `V4__criar_entregas.py`, a criar | `Entrega`, a criar | `EntregaRepository`, a criar | `EntregaRequestDTO`, `EntregaResponseDTO`, a criar | `EntregaMapper`, a criar | `EntregaService`, a criar | `entrega_controller`, a criar |
+
+Já existe o que não depende das entidades: a conexão com o banco, as migrations na subida, o Swagger e o formato único de erro.
 
 ## Entidades
 
 | Entidade | O que representa | Como se relaciona |
 |---|---|---|
-| Livro *(exemplo)* | Um exemplar do acervo que pode ser emprestado | Aparece em vários empréstimos |
-| ... | ... | ... |
+| Turma | Um grupo de alunos de uma disciplina | Tem vários alunos e várias atividades |
+| Aluno | Quem entrega os trabalhos | Pertence a uma turma e faz várias entregas |
+| Atividade | Um trabalho com prazo e nota máxima | Pertence a uma turma e recebe várias entregas |
+| Entrega | O envio de um aluno para uma atividade | Pertence a um aluno e a uma atividade |
 
 Atributos, tipos e o diagrama das tabelas estão em [docs/modelo-de-dominio.md](docs/modelo-de-dominio.md).
 
@@ -100,46 +106,19 @@ Atributos, tipos e o diagrama das tabelas estão em [docs/modelo-de-dominio.md](
 
 ### As que já funcionam
 
-| Verbo | Caminho | O que faz | Regra | Sucesso | Erros |
-|---|---|---|---|---|---|
-| `POST` *(exemplo)* | `/livros` | Cadastra um livro | Nenhuma | `201` | `400` |
-| `POST` *(exemplo)* | `/emprestimos` | Registra um empréstimo | R1 e R2 | `201` | `400`, `404` |
-| ... | ... | ... | ... | ... | ... |
-
-Exemplo de requisição *(exemplo: troque por uma rota do grupo)*:
-
-```http
-POST /livros
-Content-Type: application/json
-
-{
-  "titulo": "Dom Casmurro",
-  "isbn": "978-85-359-0277-5"
-}
-```
-
-Resposta, `201 Created`:
-
-```json
-{
-  "id": 1,
-  "titulo": "Dom Casmurro",
-  "isbn": "978-85-359-0277-5",
-  "disponivel": true
-}
-```
+Nenhuma ainda. A API sobe e o Swagger UI abre sem rotas.
 
 ### Erros
 
-Todo erro sai no mesmo formato. Este é o `400` de uma regra de negócio violada *(exemplo)*:
+Todo erro sai no mesmo formato. Este é o `400` de uma regra de negócio violada:
 
 ```json
 {
   "status": 400,
   "erro": "Bad Request",
-  "mensagem": "R2: o livro já está emprestado",
-  "caminho": "/emprestimos",
-  "timestamp": "2026-10-06T19:30:00",
+  "mensagem": "R1: o aluno não pertence à turma desta atividade",
+  "caminho": "/entregas",
+  "timestamp": "2026-10-08T19:30:00",
   "campos": []
 }
 ```
@@ -152,30 +131,33 @@ Estão no contrato, mas ainda não respondem.
 
 | Recurso | O que vai fazer |
 |---|---|
-| ... | ... |
+| `/turmas` | Cadastrar, listar e buscar turmas (a API simples) |
+| `/alunos` | Cadastrar alunos em uma turma |
+| `/atividades` | Cadastrar atividades com prazo e nota máxima |
+| `/entregas` | Registrar, reenviar e corrigir entregas, aplicando R1 a R4 |
 
 O contrato completo, com todas as rotas e os DTOs, está em [docs/contrato-da-api.md](docs/contrato-da-api.md).
 
 ## Como executar
 
-Pré-requisitos: JDK 25, Docker Desktop aberto e Git.
+Pré-requisitos: [uv](https://docs.astral.sh/uv/), Docker Desktop aberto e Git. O uv baixa o Python e as dependências sozinho.
 
 ```bash
-git clone https://github.com/{{usuario}}/{{repositorio}}.git
-cd {{repositorio}}
+git clone https://github.com/thiagodallo/entrega-certa.git
+cd entrega-certa
 
-docker compose up -d          # sobe o PostgreSQL na porta 5437
-./mvnw spring-boot:run        # Windows: .\mvnw.cmd spring-boot:run
+docker compose up -d                          # sobe o PostgreSQL na porta 5437
+uv run uvicorn api.main:app --port 8000       # aplica as migrations e sobe a API
 ```
 
 Com a API no ar:
 
 | Endereço | O que é |
 |---|---|
-| <http://localhost:8080/swagger-ui.html> | Swagger UI: as rotas, com **Try it out** para enviar requisições |
-| <http://localhost:8080/v3/api-docs> | O contrato OpenAPI em JSON |
+| <http://localhost:8000/swagger-ui.html> | Swagger UI: as rotas, com **Try it out** para enviar requisições |
+| <http://localhost:8000/v3/api-docs> | O contrato OpenAPI em JSON |
 
-Para testar as rotas, use o Swagger UI ou o **Postman**. No Postman, importe todas as rotas de uma vez: **Import** → **Link** → `http://localhost:8080/v3/api-docs`.
+Para testar as rotas, use o Swagger UI ou o **Postman**. No Postman, importe todas as rotas de uma vez: **Import** → **Link** → `http://localhost:8000/v3/api-docs`.
 
 Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banco e rodar as migrations do zero: `docker compose down -v` e suba de novo.
 
@@ -183,11 +165,11 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 
 | Parte | Situação |
 |---|---|
-| Desenho | {{ex.: completo: problema e regras neste README, modelo e contrato em docs/}} |
-| Estrutura | {{ex.: as 3 entidades têm migration, entidade, Repository, DTOs, Mapper, Service e Controller}} |
-| API e regras | {{ex.: as rotas de livros funcionam; R1, R2 e R3 estão implementadas}} |
+| Desenho | Em andamento: problema e regras neste README; primeira versão do modelo e do contrato em `docs/` |
+| Estrutura | A base em Python sobe e conecta no banco. As classes das 4 entidades ainda não foram criadas |
+| API e regras | Nenhuma rota ainda. R1 a R4 estão definidas, sem código |
 
-**Ainda não funciona:** {{as rotas planejadas que ainda não respondem}}
+**Ainda não funciona:** todas as rotas de `/turmas`, `/alunos`, `/atividades` e `/entregas`.
 
 ## Documentação
 
