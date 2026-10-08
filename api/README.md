@@ -33,7 +33,7 @@ Para **cada** entidade de `docs/modelo-de-dominio.md`, nesta ordem:
 Suba a API depois de cada entidade:
 
 ```bash
-uv run uvicorn api.main:app --port 8000
+uv run python -m uvicorn api.main:app --port 8000
 ```
 
 Se a entidade não bater com a tabela, a API não sobe e o erro diz qual coluna está errada.

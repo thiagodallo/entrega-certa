@@ -66,7 +66,7 @@ O template e os critérios da disciplina foram escritos para Java + Spring Boot.
 
 | Critério | No template (Java) | Neste projeto (Python) |
 |---|---|---|
-| P1 Sobe pelo README | `./mvnw spring-boot:run` | `uv run uvicorn api.main:app --port 8000` |
+| P1 Sobe pelo README | `./mvnw spring-boot:run` | `uv run python -m uvicorn api.main:app --port 8000` |
 | P2 Camadas | Pacotes em `src/main/java/api/` | Pastas em [`api/`](api): `controller`, `service`, `mapper`, `repository`, `model`, `dto`, `config` |
 | P3 Banco e entidades | Flyway, `@Entity` e `ddl-auto=validate` | Alembic em [`db/migration`](db/migration), classes do SQLAlchemy em `api/model` e a conferência de [`api/config/migracoes.py`](api/config/migracoes.py), que impede a API de subir se a entidade não bater com a tabela |
 | P4 DTOs | `record` com Bean Validation | Modelos do Pydantic em `api/dto` |
@@ -146,8 +146,8 @@ Pré-requisitos: [uv](https://docs.astral.sh/uv/), Docker Desktop aberto e Git. 
 git clone https://github.com/thiagodallo/entrega-certa.git
 cd entrega-certa
 
-docker compose up -d                          # sobe o PostgreSQL na porta 5437
-uv run uvicorn api.main:app --port 8000       # aplica as migrations e sobe a API
+docker compose up -d                                # sobe o PostgreSQL na porta 5437
+uv run python -m uvicorn api.main:app --port 8000   # aplica as migrations e sobe a API
 ```
 
 Com a API no ar:
