@@ -1,7 +1,6 @@
 # Nome do projeto Compose. Sem ele, o Docker usa o nome da pasta e dois projetos
 # com a mesma pasta acabariam dividindo o mesmo volume de dados.
-# TROQUE "projeto-final" pelo nome do projeto do grupo (minúsculo, com hífen).
-name: projeto-final
+name: entrega-certa
 
 # Define os serviços que serão executados pelo Docker Compose.
 services:
@@ -10,19 +9,19 @@ services:
     # Usa uma imagem leve do PostgreSQL 16, a mesma das Aulas 08 e 09.
     image: postgres:16-alpine
     # Define um nome fixo para localizar o container facilmente.
-    container_name: projeto-final-postgres
+    container_name: entrega-certa-postgres
     # Define as variáveis que o PostgreSQL lê na primeira inicialização.
     environment:
       # Cria o banco lógico usado pela aplicação.
-      POSTGRES_DB: projeto
+      POSTGRES_DB: entrega_certa
       # Cria o usuário dono do banco.
-      POSTGRES_USER: projeto
+      POSTGRES_USER: entrega_certa
       # Define a senha do usuário do banco (valor local, só para desenvolvimento).
-      POSTGRES_PASSWORD: projeto
+      POSTGRES_PASSWORD: entrega_certa
     # Publica a porta interna do banco no computador host.
     ports:
       # Usa 5437 no host para não conflitar com os bancos das Aulas 08 e 09 (5433 a 5436).
-      - "5437:5432"
+      - "127.0.0.1:5437:5432"
     # Guarda os dados fora do ciclo de vida do container.
     volumes:
       # Monta o volume nomeado no diretório padrão de dados do PostgreSQL.
@@ -30,7 +29,7 @@ services:
     # Verifica se o PostgreSQL está pronto para receber conexões.
     healthcheck:
       # Executa o comando oficial de verificação do PostgreSQL.
-      test: ["CMD-SHELL", "pg_isready -U projeto -d projeto"]
+      test: ["CMD-SHELL", "pg_isready -U entrega_certa -d entrega_certa"]
       # Aguarda cinco segundos entre verificações.
       interval: 5s
       # Interrompe uma verificação que demorar mais que cinco segundos.
