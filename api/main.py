@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from api.config.migracoes import aplicar_migrations, validar_entidades
@@ -38,3 +39,8 @@ app.include_router(aluno_controller.router)
 app.include_router(atividade_controller.router)
 app.include_router(entrega_controller.router)
 app.mount("/painel", StaticFiles(directory=PASTA_DO_PAINEL, html=True), name="painel")
+
+
+@app.get("/", include_in_schema=False)
+def redirecionar_para_painel() -> RedirectResponse:
+    return RedirectResponse(url="/painel/")
