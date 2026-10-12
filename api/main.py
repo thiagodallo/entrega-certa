@@ -9,7 +9,7 @@ from fastapi import FastAPI
 
 from api.config.migracoes import aplicar_migrations, validar_entidades
 from api.config.openapi_config import INFORMACOES_DA_API
-from api.controller import turma_controller
+from api.controller import aluno_controller, turma_controller
 from api.controller.api_exception_handler import registrar_tratadores_de_erro
 
 
@@ -23,3 +23,4 @@ async def ciclo_de_vida(app: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(lifespan=ciclo_de_vida, **INFORMACOES_DA_API)
 registrar_tratadores_de_erro(app)
 app.include_router(turma_controller.router)
+app.include_router(aluno_controller.router)
