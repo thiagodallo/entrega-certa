@@ -85,8 +85,8 @@ A API é organizada em camadas. Uma requisição entra pelo Controller, passa pe
 | Entidade | Migration | Model | Repository | DTOs | Mapper | Service | Controller |
 |---|---|---|---|---|---|---|---|
 | Turma | `V1__criar_turmas.py`, pronta | `Turma`, pronta | `TurmaRepository`, pronta | `TurmaRequestDTO`, `TurmaResponseDTO`, prontos | `TurmaMapper`, implementada | `TurmaService`, em parte (falta `PUT` e `DELETE`) | `turma_controller`, em parte (falta `PUT` e `DELETE`) |
-| Aluno | `V2__criar_alunos.py`, a criar | `Aluno`, a criar | `AlunoRepository`, a criar | `AlunoRequestDTO`, `AlunoResponseDTO`, a criar | `AlunoMapper`, a criar | `AlunoService`, a criar | `aluno_controller`, a criar |
-| Atividade | `V3__criar_atividades.py`, a criar | `Atividade`, a criar | `AtividadeRepository`, a criar | `AtividadeRequestDTO`, `AtividadeResponseDTO`, a criar | `AtividadeMapper`, a criar | `AtividadeService`, a criar | `atividade_controller`, a criar |
+| Aluno | `V2__criar_alunos.py`, pronta | `Aluno`, pronta | `AlunoRepository`, pronta | `AlunoRequestDTO`, `AlunoResponseDTO`, prontos | `AlunoMapper`, implementada | `AlunoService`, em parte (só o cadastro) | `aluno_controller`, em parte (só o `POST`) |
+| Atividade | `V3__criar_atividades.py`, pronta | `Atividade`, pronta | `AtividadeRepository`, pronta | `AtividadeRequestDTO`, `AtividadeResponseDTO`, prontos | `AtividadeMapper`, implementada | `AtividadeService`, em parte (só o cadastro) | `atividade_controller`, em parte (só o `POST`) |
 | Entrega | `V4__criar_entregas.py`, a criar | `Entrega`, a criar | `EntregaRepository`, a criar | `EntregaRequestDTO`, `EntregaResponseDTO`, a criar | `EntregaMapper`, a criar | `EntregaService`, a criar | `entrega_controller`, a criar |
 
 Já existe o que não depende das entidades: a conexão com o banco, as migrations na subida, o Swagger e o formato único de erro.
@@ -111,6 +111,8 @@ Atributos, tipos e o diagrama das tabelas estão em [docs/modelo-de-dominio.md](
 | `POST` | `/turmas` | Cadastra uma turma | `201` | `400` |
 | `GET` | `/turmas` | Lista as turmas | `200` | Nenhum |
 | `GET` | `/turmas/{id}` | Busca uma turma | `200` | `404` |
+| `POST` | `/alunos` | Cadastra um aluno em uma turma | `201` | `400`, `404` |
+| `POST` | `/atividades` | Cadastra uma atividade para uma turma | `201` | `400`, `404` |
 
 ### Erros
 
@@ -136,8 +138,8 @@ Estão no contrato, mas ainda não respondem.
 | Recurso | O que vai fazer |
 |---|---|
 | `/turmas` | Atualizar e remover turmas (`PUT` e `DELETE`) |
-| `/alunos` | Cadastrar alunos em uma turma |
-| `/atividades` | Cadastrar atividades com prazo e nota máxima |
+| `/alunos` | Listar, buscar, atualizar e remover alunos |
+| `/atividades` | Listar, buscar, atualizar e remover atividades |
 | `/entregas` | Registrar, reenviar e corrigir entregas, aplicando R1 a R4 |
 
 O contrato completo, com todas as rotas e os DTOs, está em [docs/contrato-da-api.md](docs/contrato-da-api.md).
@@ -170,10 +172,10 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 | Parte | Situação |
 |---|---|
 | Desenho | Em andamento: problema e regras neste README; primeira versão do modelo e do contrato em `docs/` |
-| Estrutura | `Turma` tem todas as camadas. Faltam `Aluno`, `Atividade` e `Entrega` |
-| API e regras | A API simples de `/turmas` funciona, com `400` e `404`. R1 a R4 estão definidas, sem código |
+| Estrutura | `Turma`, `Aluno` e `Atividade` têm todas as camadas. Falta `Entrega` |
+| API e regras | A API simples de `/turmas` e os cadastros de alunos e de atividades funcionam, com `400` e `404`. R1 a R4 estão definidas, sem código |
 
-**Ainda não funciona:** `PUT` e `DELETE` de `/turmas` e todas as rotas de `/alunos`, `/atividades` e `/entregas`.
+**Ainda não funciona:** `PUT` e `DELETE` de `/turmas`, as rotas de `/alunos` e de `/atividades` além do `POST` e todas as rotas de `/entregas`.
 
 ## Documentação
 
