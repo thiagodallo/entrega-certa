@@ -4,16 +4,18 @@
 #         R2 (até 1 dia depois do prazo a entrega é aceita com teto de 70% da
 #         nota máxima; depois disso é recusada) e
 #         R3 (uma entrega por aluno em cada atividade; pode reenviar enquanto
-#         não for corrigida, depois não).
-# ROTAS ATENDIDAS: POST /entregas, GET /entregas/{id} e PUT /entregas/{id}/reenvio.
-# SITUAÇÃO: implementada em parte. A correção entra no próximo commit; a
-#           listagem, na próxima etapa.
+#         não for corrigida, depois não) e
+#         R4 (a nota da correção não passa do teto da entrega).
+# ROTAS ATENDIDAS: POST /entregas, GET /entregas/{id}, PUT /entregas/{id}/reenvio
+#                  e PUT /entregas/{id}/correcao.
+# SITUAÇÃO: implementada. A listagem (GET /entregas) entra na próxima etapa.
 from datetime import datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Annotated
 
 from fastapi import Depends
 
+from api.dto.entrega_correcao_request_dto import EntregaCorrecaoRequestDTO
 from api.dto.entrega_reenvio_request_dto import EntregaReenvioRequestDTO
 from api.dto.entrega_request_dto import EntregaRequestDTO
 from api.dto.entrega_response_dto import EntregaResponseDTO
@@ -71,6 +73,14 @@ class EntregaService:
             )
         self._aplicar_prazo(entrega, datetime.now().replace(microsecond=0))
         entrega.link = request.link
+        return self.mapper.to_response(self.repository.save(entrega))
+
+    def corrigir(self, entrega_id: int, request: EntregaCorrecaoRequestDTO) -> EntregaResponseDTO:
+        entrega = self._buscar_entrega(entrega_id)
+        if request.nota > entrega.nota_teto:
+            raise RegraDeNegocioException("R4: a nota não pode passar do teto desta entrega")
+        entrega.nota = request.nota
+        entrega.corrigida_em = datetime.now().replace(microsecond=0)
         return self.mapper.to_response(self.repository.save(entrega))
 
     def _buscar_entrega(self, entrega_id: int) -> Entrega:
