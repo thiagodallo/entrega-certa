@@ -84,6 +84,10 @@ O que entra não é igual ao que sai: o cliente não envia `id` nem campos que a
 | `EntregaReenvioRequestDTO` | entrada | `link` | Obrigatório, até 500 caracteres |
 | `EntregaCorrecaoRequestDTO` | entrada | `nota` | Obrigatória, zero ou mais |
 | `EntregaResponseDTO` | saída | `id`, `atividade`, `aluno`, `link`, `entregueEm`, `atrasada`, `notaTeto`, `nota`, `corrigidaEm` | Nenhuma |
+| `AtividadeResumoResponseDTO` | saída, dentro de `EntregaResponseDTO` | `id`, `titulo`, `prazo`, `notaMaxima` | Nenhuma |
+| `AlunoResumoResponseDTO` | saída, dentro de `EntregaResponseDTO` | `id`, `nome` | Nenhuma |
+
+Como a R2 conta o atraso: vale o dia de `entregueEm`, no relógio do servidor. Entrega até o dia do prazo está em dia; no dia seguinte, até 23h59, entra como atrasada; do segundo dia em diante é recusada. O reenvio refaz essa conta com a data do reenvio.
 
 ## Exemplos
 

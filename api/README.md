@@ -86,8 +86,8 @@ A API é organizada em camadas. Uma requisição entra pelo Controller, passa pe
 |---|---|---|---|---|---|---|---|
 | Turma | `V1__criar_turmas.py`, pronta | `Turma`, pronta | `TurmaRepository`, pronta | `TurmaRequestDTO`, `TurmaResponseDTO`, prontos | `TurmaMapper`, implementada | `TurmaService`, em parte (falta `PUT` e `DELETE`) | `turma_controller`, em parte (falta `PUT` e `DELETE`) |
 | Aluno | `V2__criar_alunos.py`, pronta | `Aluno`, pronta | `AlunoRepository`, pronta | `AlunoRequestDTO`, `AlunoResponseDTO`, prontos | `AlunoMapper`, implementada | `AlunoService`, em parte (só o cadastro) | `aluno_controller`, em parte (só o `POST`) |
-| Atividade | `V3__criar_atividades.py`, a criar | `Atividade`, a criar | `AtividadeRepository`, a criar | `AtividadeRequestDTO`, `AtividadeResponseDTO`, a criar | `AtividadeMapper`, a criar | `AtividadeService`, a criar | `atividade_controller`, a criar |
-| Entrega | `V4__criar_entregas.py`, a criar | `Entrega`, a criar | `EntregaRepository`, a criar | `EntregaRequestDTO`, `EntregaResponseDTO`, a criar | `EntregaMapper`, a criar | `EntregaService`, a criar | `entrega_controller`, a criar |
+| Atividade | `V3__criar_atividades.py`, pronta | `Atividade`, pronta | `AtividadeRepository`, pronta | `AtividadeRequestDTO`, `AtividadeResponseDTO`, prontos | `AtividadeMapper`, implementada | `AtividadeService`, em parte (só o cadastro) | `atividade_controller`, em parte (só o `POST`) |
+| Entrega | `V4__criar_entregas.py`, pronta | `Entrega`, pronta | `EntregaRepository`, pronta | `EntregaRequestDTO`, `EntregaReenvioRequestDTO`, `EntregaResponseDTO`, `AtividadeResumoResponseDTO`, `AlunoResumoResponseDTO`, prontos | `EntregaMapper`, implementada | `EntregaService`, em parte (R1, R2 e R3; falta a correção) | `entrega_controller`, em parte (falta a correção) |
 
 Já existe o que não depende das entidades: a conexão com o banco, as migrations na subida, o Swagger e o formato único de erro.
 
@@ -112,6 +112,10 @@ Atributos, tipos e o diagrama das tabelas estão em [docs/modelo-de-dominio.md](
 | `GET` | `/turmas` | Lista as turmas | `200` | Nenhum |
 | `GET` | `/turmas/{id}` | Busca uma turma | `200` | `404` |
 | `POST` | `/alunos` | Cadastra um aluno em uma turma | `201` | `400`, `404` |
+| `POST` | `/atividades` | Cadastra uma atividade para uma turma | `201` | `400`, `404` |
+| `POST` | `/entregas` | Registra uma entrega, aplicando R1, R2 e R3 | `201` | `400`, `404` |
+| `GET` | `/entregas/{id}` | Busca uma entrega | `200` | `404` |
+| `PUT` | `/entregas/{id}/reenvio` | Troca o link de uma entrega não corrigida, aplicando R2 e R3 | `200` | `400`, `404` |
 
 ### Erros
 
@@ -138,8 +142,8 @@ Estão no contrato, mas ainda não respondem.
 |---|---|
 | `/turmas` | Atualizar e remover turmas (`PUT` e `DELETE`) |
 | `/alunos` | Listar, buscar, atualizar e remover alunos |
-| `/atividades` | Cadastrar atividades com prazo e nota máxima |
-| `/entregas` | Registrar, reenviar e corrigir entregas, aplicando R1 a R4 |
+| `/atividades` | Listar, buscar, atualizar e remover atividades |
+| `/entregas` | Corrigir uma entrega, aplicando R4, e listar as entregas |
 
 O contrato completo, com todas as rotas e os DTOs, está em [docs/contrato-da-api.md](docs/contrato-da-api.md).
 
@@ -171,10 +175,10 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 | Parte | Situação |
 |---|---|
 | Desenho | Em andamento: problema e regras neste README; primeira versão do modelo e do contrato em `docs/` |
-| Estrutura | `Turma` e `Aluno` têm todas as camadas. Faltam `Atividade` e `Entrega` |
-| API e regras | A API simples de `/turmas` e o cadastro de alunos funcionam, com `400` e `404`. R1 a R4 estão definidas, sem código |
+| Estrutura | As 4 entidades têm todas as camadas |
+| API e regras | A API simples de `/turmas`, os cadastros de alunos e de atividades e o registro e o reenvio de entregas funcionam, com `400` e `404`. R1, R2 e R3 estão implementadas; a R4 ainda não |
 
-**Ainda não funciona:** `PUT` e `DELETE` de `/turmas`, as rotas de `/alunos` além do `POST` e todas as rotas de `/atividades` e `/entregas`.
+**Ainda não funciona:** `PUT /entregas/{id}/correcao` (R4), `GET /entregas`, `PUT` e `DELETE` de `/turmas` e as rotas de `/alunos` e de `/atividades` além do `POST`.
 
 ## Documentação
 

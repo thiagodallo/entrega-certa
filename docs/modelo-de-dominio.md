@@ -50,7 +50,7 @@ O envio de um aluno para uma atividade.
 | `link` | `str` | `link` | sim | Até 500 caracteres. Onde o trabalho está (repositório, pasta, documento) |
 | `entregue_em` | `datetime` | `entregue_em` | sim | A API preenche com o momento do envio; o cliente não controla |
 | `atrasada` | `bool` | `atrasada` | sim | A API calcula comparando `entregue_em` com o prazo (R2) |
-| `nota_teto` | `Decimal` | `nota_teto` | sim | `NUMERIC(4,2)`. A API calcula: a nota máxima, ou 70% dela se atrasada (R2) |
+| `nota_teto` | `Decimal` | `nota_teto` | sim | `NUMERIC(4,2)`. A API calcula: a nota máxima, ou 70% dela se atrasada, arredondada para duas casas (R2) |
 | `nota` | `Decimal` | `nota` | não | `NUMERIC(4,2)`. Vazia até a correção, nunca acima de `nota_teto` (R4) |
 | `corrigida_em` | `datetime` | `corrigida_em` | não | Vazia até a correção. Preenchida, bloqueia o reenvio (R3) |
 
@@ -119,4 +119,4 @@ Ficam em `db/migration`, uma tabela por arquivo. A ordem importa: a tabela refer
 | V1 | `V1__criar_turmas.py` | Tabela `turmas` | Pronta |
 | V2 | `V2__criar_alunos.py` | Tabela `alunos`, com a chave estrangeira para `turmas` e o e-mail único | Pronta |
 | V3 | `V3__criar_atividades.py` | Tabela `atividades`, com a chave estrangeira para `turmas` | Pronta |
-| V4 | `V4__criar_entregas.py` | Tabela `entregas`, com as duas chaves estrangeiras e a unicidade de `(atividade_id, aluno_id)` | A criar |
+| V4 | `V4__criar_entregas.py` | Tabela `entregas`, com as duas chaves estrangeiras e a unicidade de `(atividade_id, aluno_id)` | Pronta |
