@@ -84,7 +84,7 @@ A API é organizada em camadas. Uma requisição entra pelo Controller, passa pe
 
 | Entidade | Migration | Model | Repository | DTOs | Mapper | Service | Controller |
 |---|---|---|---|---|---|---|---|
-| Turma | `V1__criar_turmas.py`, a criar | `Turma`, a criar | `TurmaRepository`, a criar | `TurmaRequestDTO`, `TurmaResponseDTO`, a criar | `TurmaMapper`, a criar | `TurmaService`, a criar | `turma_controller`, a criar |
+| Turma | `V1__criar_turmas.py`, pronta | `Turma`, pronta | `TurmaRepository`, pronta | `TurmaRequestDTO`, `TurmaResponseDTO`, prontos | `TurmaMapper`, implementada | `TurmaService`, em parte (falta `PUT` e `DELETE`) | `turma_controller`, em parte (falta `PUT` e `DELETE`) |
 | Aluno | `V2__criar_alunos.py`, a criar | `Aluno`, a criar | `AlunoRepository`, a criar | `AlunoRequestDTO`, `AlunoResponseDTO`, a criar | `AlunoMapper`, a criar | `AlunoService`, a criar | `aluno_controller`, a criar |
 | Atividade | `V3__criar_atividades.py`, a criar | `Atividade`, a criar | `AtividadeRepository`, a criar | `AtividadeRequestDTO`, `AtividadeResponseDTO`, a criar | `AtividadeMapper`, a criar | `AtividadeService`, a criar | `atividade_controller`, a criar |
 | Entrega | `V4__criar_entregas.py`, a criar | `Entrega`, a criar | `EntregaRepository`, a criar | `EntregaRequestDTO`, `EntregaResponseDTO`, a criar | `EntregaMapper`, a criar | `EntregaService`, a criar | `entrega_controller`, a criar |
@@ -106,7 +106,11 @@ Atributos, tipos e o diagrama das tabelas estão em [docs/modelo-de-dominio.md](
 
 ### As que já funcionam
 
-Nenhuma ainda. A API sobe e o Swagger UI abre sem rotas.
+| Verbo | Caminho | O que faz | Sucesso | Erros |
+|---|---|---|---|---|
+| `POST` | `/turmas` | Cadastra uma turma | `201` | `400` |
+| `GET` | `/turmas` | Lista as turmas | `200` | Nenhum |
+| `GET` | `/turmas/{id}` | Busca uma turma | `200` | `404` |
 
 ### Erros
 
@@ -131,7 +135,7 @@ Estão no contrato, mas ainda não respondem.
 
 | Recurso | O que vai fazer |
 |---|---|
-| `/turmas` | Cadastrar, listar e buscar turmas (a API simples) |
+| `/turmas` | Atualizar e remover turmas (`PUT` e `DELETE`) |
 | `/alunos` | Cadastrar alunos em uma turma |
 | `/atividades` | Cadastrar atividades com prazo e nota máxima |
 | `/entregas` | Registrar, reenviar e corrigir entregas, aplicando R1 a R4 |
@@ -166,10 +170,10 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 | Parte | Situação |
 |---|---|
 | Desenho | Em andamento: problema e regras neste README; primeira versão do modelo e do contrato em `docs/` |
-| Estrutura | A base em Python sobe e conecta no banco. As classes das 4 entidades ainda não foram criadas |
-| API e regras | Nenhuma rota ainda. R1 a R4 estão definidas, sem código |
+| Estrutura | `Turma` tem todas as camadas. Faltam `Aluno`, `Atividade` e `Entrega` |
+| API e regras | A API simples de `/turmas` funciona, com `400` e `404`. R1 a R4 estão definidas, sem código |
 
-**Ainda não funciona:** todas as rotas de `/turmas`, `/alunos`, `/atividades` e `/entregas`.
+**Ainda não funciona:** `PUT` e `DELETE` de `/turmas` e todas as rotas de `/alunos`, `/atividades` e `/entregas`.
 
 ## Documentação
 

@@ -116,7 +116,7 @@ Ficam em `db/migration`, uma tabela por arquivo. A ordem importa: a tabela refer
 
 | Versão | Arquivo | O que cria | Situação |
 |---|---|---|---|
-| V1 | `V1__criar_turmas.py` | Tabela `turmas` | A criar |
+| V1 | `V1__criar_turmas.py` | Tabela `turmas` | Pronta |
 | V2 | `V2__criar_alunos.py` | Tabela `alunos`, com a chave estrangeira para `turmas` | A criar |
 | V3 | `V3__criar_atividades.py` | Tabela `atividades`, com a chave estrangeira para `turmas` | A criar |
 | V4 | `V4__criar_entregas.py` | Tabela `entregas`, com as duas chaves estrangeiras e a unicidade de `(atividade_id, aluno_id)` | A criar |
