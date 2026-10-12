@@ -87,7 +87,7 @@ A API é organizada em camadas. Uma requisição entra pelo Controller, passa pe
 | Turma | `V1__criar_turmas.py`, pronta | `Turma`, pronta | `TurmaRepository`, pronta | `TurmaRequestDTO`, `TurmaResponseDTO`, prontos | `TurmaMapper`, implementada | `TurmaService`, em parte (falta `PUT` e `DELETE`) | `turma_controller`, em parte (falta `PUT` e `DELETE`) |
 | Aluno | `V2__criar_alunos.py`, pronta | `Aluno`, pronta | `AlunoRepository`, pronta | `AlunoRequestDTO`, `AlunoResponseDTO`, prontos | `AlunoMapper`, implementada | `AlunoService`, em parte (só o cadastro) | `aluno_controller`, em parte (só o `POST`) |
 | Atividade | `V3__criar_atividades.py`, pronta | `Atividade`, pronta | `AtividadeRepository`, pronta | `AtividadeRequestDTO`, `AtividadeResponseDTO`, prontos | `AtividadeMapper`, implementada | `AtividadeService`, em parte (só o cadastro) | `atividade_controller`, em parte (só o `POST`) |
-| Entrega | `V4__criar_entregas.py`, a criar | `Entrega`, a criar | `EntregaRepository`, a criar | `EntregaRequestDTO`, `EntregaResponseDTO`, a criar | `EntregaMapper`, a criar | `EntregaService`, a criar | `entrega_controller`, a criar |
+| Entrega | `V4__criar_entregas.py`, pronta | `Entrega`, pronta | `EntregaRepository`, pronta | `EntregaRequestDTO`, `EntregaReenvioRequestDTO`, `EntregaCorrecaoRequestDTO`, `EntregaResponseDTO`, `AtividadeResumoResponseDTO`, `AlunoResumoResponseDTO`, prontos | `EntregaMapper`, implementada | `EntregaService`, implementada (R1 a R4; falta só a listagem) | `entrega_controller`, implementada (falta só a listagem) |
 
 Já existe o que não depende das entidades: a conexão com o banco, as migrations na subida, o Swagger e o formato único de erro.
 
@@ -113,6 +113,10 @@ Atributos, tipos e o diagrama das tabelas estão em [docs/modelo-de-dominio.md](
 | `GET` | `/turmas/{id}` | Busca uma turma | `200` | `404` |
 | `POST` | `/alunos` | Cadastra um aluno em uma turma | `201` | `400`, `404` |
 | `POST` | `/atividades` | Cadastra uma atividade para uma turma | `201` | `400`, `404` |
+| `POST` | `/entregas` | Registra uma entrega, aplicando R1, R2 e R3 | `201` | `400`, `404` |
+| `GET` | `/entregas/{id}` | Busca uma entrega | `200` | `404` |
+| `PUT` | `/entregas/{id}/reenvio` | Troca o link de uma entrega não corrigida, aplicando R2 e R3 | `200` | `400`, `404` |
+| `PUT` | `/entregas/{id}/correcao` | Lança a nota da entrega, aplicando R4 | `200` | `400`, `404` |
 
 ### Erros
 
@@ -140,7 +144,7 @@ Estão no contrato, mas ainda não respondem.
 | `/turmas` | Atualizar e remover turmas (`PUT` e `DELETE`) |
 | `/alunos` | Listar, buscar, atualizar e remover alunos |
 | `/atividades` | Listar, buscar, atualizar e remover atividades |
-| `/entregas` | Registrar, reenviar e corrigir entregas, aplicando R1 a R4 |
+| `/entregas` | Listar as entregas |
 
 O contrato completo, com todas as rotas e os DTOs, está em [docs/contrato-da-api.md](docs/contrato-da-api.md).
 
@@ -172,10 +176,10 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 | Parte | Situação |
 |---|---|
 | Desenho | Em andamento: problema e regras neste README; primeira versão do modelo e do contrato em `docs/` |
-| Estrutura | `Turma`, `Aluno` e `Atividade` têm todas as camadas. Falta `Entrega` |
-| API e regras | A API simples de `/turmas` e os cadastros de alunos e de atividades funcionam, com `400` e `404`. R1 a R4 estão definidas, sem código |
+| Estrutura | As 4 entidades têm todas as camadas |
+| API e regras | A API simples de `/turmas`, os cadastros de alunos e de atividades e o registro, o reenvio e a correção de entregas funcionam, com `400` e `404`. As quatro regras, R1 a R4, estão implementadas no `EntregaService` |
 
-**Ainda não funciona:** `PUT` e `DELETE` de `/turmas`, as rotas de `/alunos` e de `/atividades` além do `POST` e todas as rotas de `/entregas`.
+**Ainda não funciona:** `GET /entregas`, `PUT` e `DELETE` de `/turmas` e as rotas de `/alunos` e de `/atividades` além do `POST`. Ficam para a próxima etapa, porque nenhuma regra depende delas.
 
 ## Documentação
 
