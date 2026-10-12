@@ -78,7 +78,7 @@ O que entra não é igual ao que sai: o cliente não envia `id` nem campos que a
 | `TurmaResponseDTO` | saída | `id`, `nome`, `disciplina` | Nenhuma |
 | `AlunoRequestDTO` | entrada | `nome`, `email`, `turmaId` | Os três obrigatórios; `nome` e `email` até 255 caracteres; `email` em formato de e-mail |
 | `AlunoResponseDTO` | saída | `id`, `nome`, `email`, `turma` | Nenhuma |
-| `AtividadeRequestDTO` | entrada | `titulo`, `descricao`, `prazo`, `notaMaxima`, `turmaId` | `descricao` opcional; `notaMaxima` maior que zero |
+| `AtividadeRequestDTO` | entrada | `titulo`, `descricao`, `prazo`, `notaMaxima`, `turmaId` | `descricao` opcional; `titulo` até 255 caracteres; `notaMaxima` maior que zero, até 99.99, com no máximo duas casas |
 | `AtividadeResponseDTO` | saída | `id`, `titulo`, `descricao`, `prazo`, `notaMaxima`, `turma` | Nenhuma |
 | `EntregaRequestDTO` | entrada | `atividadeId`, `alunoId`, `link` | Os três obrigatórios; `link` até 500 caracteres |
 | `EntregaReenvioRequestDTO` | entrada | `link` | Obrigatório, até 500 caracteres |
