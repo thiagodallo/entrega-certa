@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrega Certa · Painel</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="painel.css">
+</head>
+<body>
+  <header class="topo">
+    <div>
+      <p class="marca">Entrega Certa</p>
+      <h1>Painel de demonstração da API</h1>
+    </div>
+    <a class="atalho" href="/swagger-ui.html">Abrir o Swagger</a>
+  </header>
+
+  <main class="palco">
+    <div class="passos">
+      <section class="passo" aria-labelledby="titulo-turma">
+        <header class="passo-topo">
+          <h2 id="titulo-turma">1. Turma</h2>
+          <code>POST /turmas</code>
+        </header>
+        <form data-metodo="POST" data-caminho="/turmas" data-entidade="turma">
+          <label>Nome
+            <input name="nome" value="3ª fase noturno" autocomplete="off">
+          </label>
+          <label>Disciplina
+            <input name="disciplina" value="Backend" autocomplete="off">
+          </label>
+          <div class="acoes">
+            <button type="submit">Cadastrar turma</button>
+            <button type="button" class="secundario" data-metodo="GET" data-caminho="/turmas">Listar turmas</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="passo" aria-labelledby="titulo-aluno">
+        <header class="passo-topo">
+          <h2 id="titulo-aluno">2. Aluno</h2>
+          <code>POST /alunos</code>
+        </header>
+        <form data-metodo="POST" data-caminho="/alunos" data-entidade="aluno">
+          <label>Nome
+            <input name="nome" value="Ana Souza" autocomplete="off">
+          </label>
+          <label>E-mail
+            <input name="email" value="ana.souza@email.com" autocomplete="off">
+          </label>
+          <label>Id da turma
+            <input name="turmaId" inputmode="numeric" data-numero data-id-de="turma">
+          </label>
+          <div class="acoes">
+            <button type="submit">Cadastrar aluno</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="passo" aria-labelledby="titulo-atividade">
+        <header class="passo-topo">
+          <h2 id="titulo-atividade">3. Atividade</h2>
+          <code>POST /atividades</code>
+        </header>
+        <form data-metodo="POST" data-caminho="/atividades" data-entidade="atividade">
+          <label>Título
+            <input name="titulo" value="API REST de tarefas" autocomplete="off">
+          </label>
+          <label>Prazo
+            <input name="prazo" type="date">
+          </label>
+          <div class="atalhos-de-prazo" role="group" aria-label="Atalhos de prazo">
+            <button type="button" class="etiqueta" data-dias="3">Em 3 dias</button>
+            <button type="button" class="etiqueta" data-dias="-1">Ontem (entra atrasada)</button>
+            <button type="button" class="etiqueta" data-dias="-2">Há 2 dias (é recusada)</button>
+          </div>
+          <label>Nota máxima
+            <input name="notaMaxima" value="10" inputmode="decimal" data-numero>
+          </label>
+          <label>Id da turma
+            <input name="turmaId" inputmode="numeric" data-numero data-id-de="turma">
+          </label>
+          <div class="acoes">
+            <button type="submit">Cadastrar atividade</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="passo" aria-labelledby="titulo-entrega">
+        <header class="passo-topo">
+          <h2 id="titulo-entrega">4. Entrega</h2>
+          <code>POST /entregas</code>
+        </header>
+        <p class="regras">Aplica R1 (aluno da turma), R2 (prazo e teto de 70%) e R3 (uma entrega por aluno).</p>
+        <form data-metodo="POST" data-caminho="/entregas" data-entidade="entrega">
+          <label>Id da atividade
+            <input name="atividadeId" inputmode="numeric" data-numero data-id-de="atividade">
+          </label>
+          <label>Id do aluno
+            <input name="alunoId" inputmode="numeric" data-numero data-id-de="aluno">
+          </label>
+          <label>Link do trabalho
+            <input name="link" value="https://github.com/aluno/trabalho-api-rest" autocomplete="off">
+          </label>
+          <div class="acoes">
+            <button type="submit">Registrar entrega</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="passo" aria-labelledby="titulo-reenvio">
+        <header class="passo-topo">
+          <h2 id="titulo-reenvio">5. Reenvio</h2>
+          <code>PUT /entregas/{id}/reenvio</code>
+        </header>
+        <p class="regras">Aplica R2 de novo e R3 (entrega corrigida não pode ser trocada).</p>
+        <form data-metodo="PUT" data-caminho="/entregas/{id}/reenvio">
+          <label>Id da entrega
+            <input name="id" inputmode="numeric" data-no-caminho data-id-de="entrega">
+          </label>
+          <label>Link novo
+            <input name="link" value="https://github.com/aluno/trabalho-api-rest-v2" autocomplete="off">
+          </label>
+          <div class="acoes">
+            <button type="submit">Reenviar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="passo" aria-labelledby="titulo-correcao">
+        <header class="passo-topo">
+          <h2 id="titulo-correcao">6. Correção</h2>
+          <code>PUT /entregas/{id}/correcao</code>
+        </header>
+        <p class="regras">Aplica R4 (a nota não passa do teto da entrega).</p>
+        <form data-metodo="PUT" data-caminho="/entregas/{id}/correcao">
+          <label>Id da entrega
+            <input name="id" inputmode="numeric" data-no-caminho data-id-de="entrega">
+          </label>
+          <label>Nota
+            <input name="nota" value="8.5" inputmode="decimal" data-numero>
+          </label>
+          <div class="acoes">
+            <button type="submit">Lançar nota</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="passo" aria-labelledby="titulo-busca">
+        <header class="passo-topo">
+          <h2 id="titulo-busca">7. Consulta</h2>
+          <code>GET /entregas/{id}</code>
+        </header>
+        <form data-metodo="GET" data-caminho="/entregas/{id}">
+          <label>Id da entrega
+            <input name="id" inputmode="numeric" data-no-caminho data-id-de="entrega">
+          </label>
+          <div class="acoes">
+            <button type="submit">Buscar entrega</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <aside class="respostas" aria-labelledby="titulo-respostas">
+      <header class="respostas-topo">
+        <h2 id="titulo-respostas">Respostas da API</h2>
+        <button type="button" class="secundario" id="limpar-respostas" hidden>Limpar</button>
+      </header>
+      <p class="vazio" id="respostas-vazio">Nenhuma requisição ainda. Envie um formulário e a resposta aparece aqui, com o status e o JSON.</p>
+      <ol class="lista-de-respostas" id="lista-de-respostas" aria-live="polite"></ol>
+    </aside>
+  </main>
+
+  <script src="painel.js"></script>
+</body>
+</html>
