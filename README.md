@@ -89,7 +89,7 @@ A API é organizada em camadas. Uma requisição entra pelo Controller, passa pe
 | Atividade | `V3__criar_atividades.py`, pronta | `Atividade`, pronta | `AtividadeRepository`, pronta | `AtividadeRequestDTO`, `AtividadeResponseDTO`, prontos | `AtividadeMapper`, implementada | `AtividadeService`, em parte (só o cadastro) | `atividade_controller`, em parte (só o `POST`) |
 | Entrega | `V4__criar_entregas.py`, pronta | `Entrega`, pronta | `EntregaRepository`, pronta | `EntregaRequestDTO`, `EntregaReenvioRequestDTO`, `EntregaCorrecaoRequestDTO`, `EntregaResponseDTO`, `AtividadeResumoResponseDTO`, `AlunoResumoResponseDTO`, prontos | `EntregaMapper`, implementada | `EntregaService`, implementada (R1 a R4; falta só a listagem) | `entrega_controller`, implementada (falta só a listagem) |
 
-Já existe o que não depende das entidades: a conexão com o banco, as migrations na subida, o Swagger e o formato único de erro.
+Fora das entidades ficam a conexão com o banco, as migrations na subida, o Swagger e o formato único de erro, em `api/config` e `api/controller/api_exception_handler.py`. As exceções de `404` de cada entidade (`TurmaNaoEncontradaException` e as outras três) moram em `api/service`.
 
 ## Entidades
 
@@ -178,7 +178,7 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 
 | Parte | Situação |
 |---|---|
-| Desenho | Em andamento: problema e regras neste README; primeira versão do modelo e do contrato em `docs/` |
+| Desenho | Pronto: problema e regras neste README; modelo de domínio e contrato da API em `docs/`, iguais ao código |
 | Estrutura | As 4 entidades têm todas as camadas |
 | API e regras | A API simples de `/turmas`, os cadastros de alunos e de atividades e o registro, o reenvio e a correção de entregas funcionam, com `400` e `404`. As quatro regras, R1 a R4, estão implementadas no `EntregaService` |
 
