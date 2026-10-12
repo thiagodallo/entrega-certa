@@ -166,6 +166,9 @@ Com a API no ar:
 |---|---|
 | <http://localhost:8000/swagger-ui.html> | Swagger UI: as rotas, com **Try it out** para enviar requisições |
 | <http://localhost:8000/v3/api-docs> | O contrato OpenAPI em JSON |
+| <http://localhost:8000/painel/> | Painel de demonstração: formulários que chamam as rotas e mostram o status e o JSON de cada resposta |
+
+O painel é uma página estática da pasta [`web/`](web), servida pela própria API. Não faz parte das camadas e não tem regra nenhuma: só envia o que foi digitado e mostra o que a API respondeu.
 
 Para testar as rotas, use o Swagger UI ou o **Postman**. No Postman, importe todas as rotas de uma vez: **Import** → **Link** → `http://localhost:8000/v3/api-docs`.
 
