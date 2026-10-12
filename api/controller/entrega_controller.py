@@ -2,13 +2,14 @@
 # RESPONSABILIDADE: receber as requisições de /entregas, repassar ao
 #                   EntregaService e devolver o DTO com o status certo. Nenhuma
 #                   regra é decidida aqui.
-# ROTAS ATENDIDAS: POST /entregas e GET /entregas/{id}.
-# SITUAÇÃO: implementada em parte. O reenvio e a correção entram nos próximos
-#           commits; a listagem, na próxima etapa.
+# ROTAS ATENDIDAS: POST /entregas, GET /entregas/{id} e PUT /entregas/{id}/reenvio.
+# SITUAÇÃO: implementada em parte. A correção entra no próximo commit; a
+#           listagem, na próxima etapa.
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
 
+from api.dto.entrega_reenvio_request_dto import EntregaReenvioRequestDTO
 from api.dto.entrega_request_dto import EntregaRequestDTO
 from api.dto.entrega_response_dto import EntregaResponseDTO
 from api.dto.erro_dto import ErroDTO
@@ -40,3 +41,19 @@ def registrar(
 )
 def buscar_por_id(id: int, service: Annotated[EntregaService, Depends()]) -> EntregaResponseDTO:
     return service.buscar_por_id(id)
+
+
+@router.put(
+    "/{id}/reenvio",
+    summary="Troca o link de uma entrega ainda não corrigida (R2 e R3)",
+    responses={
+        400: {"model": ErroDTO, "description": "Campo inválido ou regra R2 ou R3 violada"},
+        404: {"model": ErroDTO, "description": "Entrega não encontrada"},
+    },
+)
+def reenviar(
+    id: int,
+    request: EntregaReenvioRequestDTO,
+    service: Annotated[EntregaService, Depends()],
+) -> EntregaResponseDTO:
+    return service.reenviar(id, request)
