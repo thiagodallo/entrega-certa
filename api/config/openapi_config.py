@@ -1,7 +1,11 @@
 # CAMADA: Config
 # RESPONSABILIDADE: título, versão e descrição que aparecem no topo do Swagger UI,
-#                   nos mesmos endereços do template da disciplina.
+#                   nos mesmos endereços do template da disciplina. Também troca,
+#                   na documentação, o 422 que o FastAPI anuncia por padrão pelo
+#                   400 que a API devolve de verdade nos erros de validação.
 # SITUAÇÃO: implementada.
+from fastapi import FastAPI
+
 INFORMACOES_DA_API = {
     "title": "Projeto Final - Entrega Certa",
     "version": "Etapa 1",
@@ -15,3 +19,26 @@ INFORMACOES_DA_API = {
     "openapi_url": "/v3/api-docs",
     "redoc_url": None,
 }
+
+RESPOSTA_DE_VALIDACAO = {
+    "description": "Campo inválido",
+    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErroDTO"}}},
+}
+ESQUEMAS_DO_422 = ("HTTPValidationError", "ValidationError")
+
+
+def documentar_validacao_como_400(app: FastAPI) -> None:
+    gerar_documentacao = app.openapi
+
+    def gerar_documentacao_sem_422() -> dict:
+        documentacao = gerar_documentacao()
+        for rota in documentacao.get("paths", {}).values():
+            for operacao in rota.values():
+                if operacao["responses"].pop("422", None):
+                    operacao["responses"].setdefault("400", RESPOSTA_DE_VALIDACAO)
+        esquemas = documentacao.get("components", {}).get("schemas", {})
+        for nome in ESQUEMAS_DO_422:
+            esquemas.pop(nome, None)
+        return documentacao
+
+    app.openapi = gerar_documentacao_sem_422

@@ -2,7 +2,7 @@
 
 O contrato é o que o cliente da API enxerga: rotas, JSON e status.
 
-> Primeira versão, feita na Aula 10. Nenhuma rota responde ainda. A coluna **Funciona** mostra o plano: `Etapa 1` para as rotas da API simples e as que as regras de negócio usam, `depois` para as demais. Na entrega ela passa a dizer `sim` ou `não`.
+> Situação na entrega da Etapa 1. A coluna **Funciona** diz `sim` para as rotas que já respondem (a API simples e as que as regras de negócio usam) e `não` para as que ficam para a próxima etapa.
 
 ## Convenções
 
@@ -23,40 +23,40 @@ A API simples do projeto.
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| `GET` | `/turmas` | Lista as turmas | Nenhuma | lista de `TurmaResponseDTO` | `200` | Nenhum | Etapa 1 |
-| `GET` | `/turmas/{id}` | Busca uma turma | Nenhuma | `TurmaResponseDTO` | `200` | `404` | Etapa 1 |
-| `POST` | `/turmas` | Cadastra uma turma | `TurmaRequestDTO` | `TurmaResponseDTO` | `201` | `400` | Etapa 1 |
-| `PUT` | `/turmas/{id}` | Atualiza uma turma | `TurmaRequestDTO` | `TurmaResponseDTO` | `200` | `400`, `404` | depois |
-| `DELETE` | `/turmas/{id}` | Remove uma turma | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | depois |
+| `GET` | `/turmas` | Lista as turmas | Nenhuma | lista de `TurmaResponseDTO` | `200` | Nenhum | sim |
+| `GET` | `/turmas/{id}` | Busca uma turma | Nenhuma | `TurmaResponseDTO` | `200` | `404` | sim |
+| `POST` | `/turmas` | Cadastra uma turma | `TurmaRequestDTO` | `TurmaResponseDTO` | `201` | `400` | sim |
+| `PUT` | `/turmas/{id}` | Atualiza uma turma | `TurmaRequestDTO` | `TurmaResponseDTO` | `200` | `400`, `404` | não |
+| `DELETE` | `/turmas/{id}` | Remove uma turma | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | não |
 
 ### Alunos
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| `POST` | `/alunos` | Cadastra um aluno em uma turma | `AlunoRequestDTO` | `AlunoResponseDTO` | `201` | `400`, `404` | Etapa 1 |
-| `GET` | `/alunos` | Lista os alunos | Nenhuma | lista de `AlunoResponseDTO` | `200` | Nenhum | depois |
-| `GET` | `/alunos/{id}` | Busca um aluno | Nenhuma | `AlunoResponseDTO` | `200` | `404` | depois |
-| `PUT` | `/alunos/{id}` | Atualiza um aluno | `AlunoRequestDTO` | `AlunoResponseDTO` | `200` | `400`, `404` | depois |
-| `DELETE` | `/alunos/{id}` | Remove um aluno | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | depois |
+| `POST` | `/alunos` | Cadastra um aluno em uma turma | `AlunoRequestDTO` | `AlunoResponseDTO` | `201` | `400`, `404` | sim |
+| `GET` | `/alunos` | Lista os alunos | Nenhuma | lista de `AlunoResponseDTO` | `200` | Nenhum | não |
+| `GET` | `/alunos/{id}` | Busca um aluno | Nenhuma | `AlunoResponseDTO` | `200` | `404` | não |
+| `PUT` | `/alunos/{id}` | Atualiza um aluno | `AlunoRequestDTO` | `AlunoResponseDTO` | `200` | `400`, `404` | não |
+| `DELETE` | `/alunos/{id}` | Remove um aluno | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | não |
 
 ### Atividades
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| `POST` | `/atividades` | Cadastra uma atividade para uma turma | `AtividadeRequestDTO` | `AtividadeResponseDTO` | `201` | `400`, `404` | Etapa 1 |
-| `GET` | `/atividades` | Lista as atividades | Nenhuma | lista de `AtividadeResponseDTO` | `200` | Nenhum | depois |
-| `GET` | `/atividades/{id}` | Busca uma atividade | Nenhuma | `AtividadeResponseDTO` | `200` | `404` | depois |
-| `PUT` | `/atividades/{id}` | Atualiza uma atividade | `AtividadeRequestDTO` | `AtividadeResponseDTO` | `200` | `400`, `404` | depois |
-| `DELETE` | `/atividades/{id}` | Remove uma atividade | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | depois |
+| `POST` | `/atividades` | Cadastra uma atividade para uma turma | `AtividadeRequestDTO` | `AtividadeResponseDTO` | `201` | `400`, `404` | sim |
+| `GET` | `/atividades` | Lista as atividades | Nenhuma | lista de `AtividadeResponseDTO` | `200` | Nenhum | não |
+| `GET` | `/atividades/{id}` | Busca uma atividade | Nenhuma | `AtividadeResponseDTO` | `200` | `404` | não |
+| `PUT` | `/atividades/{id}` | Atualiza uma atividade | `AtividadeRequestDTO` | `AtividadeResponseDTO` | `200` | `400`, `404` | não |
+| `DELETE` | `/atividades/{id}` | Remove uma atividade | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | não |
 
-`POST /alunos` e `POST /atividades` entram na Etapa 1 porque as regras das entregas precisam de um aluno e de uma atividade cadastrados.
+`POST /alunos` e `POST /atividades` já funcionam porque as regras das entregas precisam de um aluno e de uma atividade cadastrados.
 
 ### Entregas
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| `GET` | `/entregas` | Lista as entregas | Nenhuma | lista de `EntregaResponseDTO` | `200` | Nenhum | depois |
-| `GET` | `/entregas/{id}` | Busca uma entrega | Nenhuma | `EntregaResponseDTO` | `200` | `404` | Etapa 1 |
+| `GET` | `/entregas` | Lista as entregas | Nenhuma | lista de `EntregaResponseDTO` | `200` | Nenhum | não |
+| `GET` | `/entregas/{id}` | Busca uma entrega | Nenhuma | `EntregaResponseDTO` | `200` | `404` | sim |
 
 ### Rotas que não são CRUD
 
@@ -67,6 +67,8 @@ As que nascem das regras de negócio do README.
 | `POST` | `/entregas` | Registra a entrega de um aluno, calcula se está atrasada e qual é o teto da nota | R1, R2 e R3 | `201` | `400`, `404` |
 | `PUT` | `/entregas/{id}/reenvio` | Troca o link de uma entrega ainda não corrigida e recalcula atraso e teto | R2 e R3 | `200` | `400`, `404` |
 | `PUT` | `/entregas/{id}/correcao` | Lança a nota da entrega | R4 | `200` | `400`, `404` |
+
+As três funcionam. Todas recebem e devolvem os DTOs da tabela abaixo.
 
 ## DTOs
 
@@ -172,6 +174,7 @@ No `400` de validação, a lista `campos` traz um item por campo inválido: `{"c
 | Status | Quando acontece neste projeto |
 |---|---|
 | `400` | JSON ilegível ou campo inválido no DTO de entrada |
+| `400` | Id do caminho que não é número, como em `GET /turmas/abc` |
 | `404` | Id que não existe |
 | `400` | Regra de negócio violada: a `mensagem` diz qual regra barrou o pedido |
 | `400` | E-mail de aluno repetido em `POST /alunos`: `Já existe um aluno com este e-mail` |
