@@ -1,0 +1,42 @@
+# CAMADA: Controller
+# RESPONSABILIDADE: receber as requisições de /entregas, repassar ao
+#                   EntregaService e devolver o DTO com o status certo. Nenhuma
+#                   regra é decidida aqui.
+# ROTAS ATENDIDAS: POST /entregas e GET /entregas/{id}.
+# SITUAÇÃO: implementada em parte. O reenvio e a correção entram nos próximos
+#           commits; a listagem, na próxima etapa.
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, status
+
+from api.dto.entrega_request_dto import EntregaRequestDTO
+from api.dto.entrega_response_dto import EntregaResponseDTO
+from api.dto.erro_dto import ErroDTO
+from api.service.entrega_service import EntregaService
+
+router = APIRouter(prefix="/entregas", tags=["Entregas"])
+
+
+@router.post(
+    "",
+    status_code=status.HTTP_201_CREATED,
+    summary="Registra a entrega de um aluno (R1, R2 e R3)",
+    responses={
+        400: {"model": ErroDTO, "description": "Campo inválido ou regra R1, R2 ou R3 violada"},
+        404: {"model": ErroDTO, "description": "Atividade ou aluno não encontrado"},
+    },
+)
+def registrar(
+    request: EntregaRequestDTO,
+    service: Annotated[EntregaService, Depends()],
+) -> EntregaResponseDTO:
+    return service.registrar(request)
+
+
+@router.get(
+    "/{id}",
+    summary="Busca uma entrega pelo id",
+    responses={404: {"model": ErroDTO, "description": "Entrega não encontrada"}},
+)
+def buscar_por_id(id: int, service: Annotated[EntregaService, Depends()]) -> EntregaResponseDTO:
+    return service.buscar_por_id(id)
