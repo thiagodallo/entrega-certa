@@ -82,7 +82,7 @@ O que entra não é igual ao que sai: o cliente não envia `id` nem campos que a
 | `AtividadeResponseDTO` | saída | `id`, `titulo`, `descricao`, `prazo`, `notaMaxima`, `turma` | Nenhuma |
 | `EntregaRequestDTO` | entrada | `atividadeId`, `alunoId`, `link` | Os três obrigatórios; `link` até 500 caracteres |
 | `EntregaReenvioRequestDTO` | entrada | `link` | Obrigatório, até 500 caracteres |
-| `EntregaCorrecaoRequestDTO` | entrada | `nota` | Obrigatória, zero ou mais |
+| `EntregaCorrecaoRequestDTO` | entrada | `nota` | Obrigatória, zero ou mais, com no máximo duas casas |
 | `EntregaResponseDTO` | saída | `id`, `atividade`, `aluno`, `link`, `entregueEm`, `atrasada`, `notaTeto`, `nota`, `corrigidaEm` | Nenhuma |
 | `AtividadeResumoResponseDTO` | saída, dentro de `EntregaResponseDTO` | `id`, `titulo`, `prazo`, `notaMaxima` | Nenhuma |
 | `AlunoResumoResponseDTO` | saída, dentro de `EntregaResponseDTO` | `id`, `nome` | Nenhuma |
@@ -139,6 +139,18 @@ Resposta, `201 Created`:
   "corrigidaEm": null
 }
 ```
+
+### `PUT /entregas/{id}/correcao`
+
+Requisição, para a entrega atrasada do exemplo anterior, que tem teto 7:
+
+```json
+{
+  "nota": 6.5
+}
+```
+
+Resposta, `200 OK`: o mesmo `EntregaResponseDTO`, agora com `"nota": 6.5` e `corrigidaEm` preenchido. Uma nota `8` devolveria `400`, com a mensagem da R4.
 
 ## Erros
 
