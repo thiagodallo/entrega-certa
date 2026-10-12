@@ -1,20 +1,14 @@
 # CAMADA: DTO
-# RESPONSABILIDADE: o que o cliente envia para cadastrar um aluno, com as
-#                   validações de formato. A turma entra como id (turmaId).
-# ROTAS ATENDIDAS: POST /alunos.
+# RESPONSABILIDADE: o que a API devolve sobre um aluno. A turma sai como objeto.
+# ROTAS ATENDIDAS: as de /alunos em docs/contrato-da-api.md.
 # SITUAÇÃO: implementada.
 from pydantic import Field
 
 from api.dto.base_dto import BaseDTO
+from api.dto.turma_response_dto import TurmaResponseDTO
 
-FORMATO_DE_EMAIL = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
-
-
-class AlunoRequestDTO(BaseDTO):
-    nome: str = Field(min_length=1, max_length=255, examples=["Ana Souza"])
-    email: str = Field(
-        max_length=255,
-        pattern=FORMATO_DE_EMAIL,
-        examples=["ana.souza@email.com"],
-    )
-    turma_id: int = Field(gt=0, examples=[1])
+class AlunoResponseDTO(BaseDTO):
+    id: int = Field(examples=[1])
+    nome: str = Field(examples=["Ana Souza"])
+    email: str = Field(examples=["ana.souza@email.com"])
+    turma: TurmaResponseDTO
