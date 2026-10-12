@@ -76,7 +76,7 @@ O que entra não é igual ao que sai: o cliente não envia `id` nem campos que a
 |---|---|---|---|
 | `TurmaRequestDTO` | entrada | `nome`, `disciplina` | Os dois obrigatórios, até 100 caracteres |
 | `TurmaResponseDTO` | saída | `id`, `nome`, `disciplina` | Nenhuma |
-| `AlunoRequestDTO` | entrada | `nome`, `email`, `turmaId` | Os três obrigatórios; `email` em formato de e-mail |
+| `AlunoRequestDTO` | entrada | `nome`, `email`, `turmaId` | Os três obrigatórios; `nome` e `email` até 255 caracteres; `email` em formato de e-mail |
 | `AlunoResponseDTO` | saída | `id`, `nome`, `email`, `turma` | Nenhuma |
 | `AtividadeRequestDTO` | entrada | `titulo`, `descricao`, `prazo`, `notaMaxima`, `turmaId` | `descricao` opcional; `notaMaxima` maior que zero |
 | `AtividadeResponseDTO` | saída | `id`, `titulo`, `descricao`, `prazo`, `notaMaxima`, `turma` | Nenhuma |
@@ -158,6 +158,7 @@ No `400` de validação, a lista `campos` traz um item por campo inválido: `{"c
 | `400` | JSON ilegível ou campo inválido no DTO de entrada |
 | `404` | Id que não existe |
 | `400` | Regra de negócio violada: a `mensagem` diz qual regra barrou o pedido |
+| `400` | E-mail de aluno repetido em `POST /alunos`: `Já existe um aluno com este e-mail` |
 
 Mensagens das regras:
 
