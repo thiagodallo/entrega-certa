@@ -35,6 +35,14 @@
             <button type="button" class="secundario" data-metodo="GET" data-caminho="/turmas">Listar turmas</button>
           </div>
         </form>
+        <form data-metodo="GET" data-caminho="/turmas/{id}">
+          <label>Id da turma
+            <input name="id" inputmode="numeric" data-no-caminho data-id-de="turma">
+          </label>
+          <div class="acoes">
+            <button type="submit" class="secundario">Buscar turma</button>
+          </div>
+        </form>
       </section>
 
       <section class="passo" aria-labelledby="titulo-aluno">

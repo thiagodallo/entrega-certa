@@ -118,6 +118,12 @@ form {
   gap: 10px;
 }
 
+form + form {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linha);
+}
+
 label {
   display: grid;
   gap: 4px;
