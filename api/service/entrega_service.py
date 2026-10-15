@@ -6,9 +6,9 @@
 #         R3 (uma entrega por aluno em cada atividade; pode reenviar enquanto
 #         não for corrigida, depois não) e
 #         R4 (a nota da correção não passa do teto da entrega).
-# ROTAS ATENDIDAS: POST /entregas, GET /entregas/{id}, PUT /entregas/{id}/reenvio
-#                  e PUT /entregas/{id}/correcao.
-# SITUAÇÃO: implementada. A listagem (GET /entregas) entra na próxima etapa.
+# ROTAS ATENDIDAS: POST /entregas, GET /entregas, GET /entregas/{id},
+#                  PUT /entregas/{id}/reenvio e PUT /entregas/{id}/correcao.
+# SITUAÇÃO: implementada.
 from datetime import datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Annotated
@@ -61,6 +61,9 @@ class EntregaService:
         entrega = self.mapper.to_entity(request, atividade, aluno)
         self._aplicar_prazo(entrega, datetime.now().replace(microsecond=0))
         return self.mapper.to_response(self.repository.save(entrega))
+
+    def listar(self) -> list[EntregaResponseDTO]:
+        return self.mapper.to_response_list(self.repository.find_all())
 
     def buscar_por_id(self, entrega_id: int) -> EntregaResponseDTO:
         return self.mapper.to_response(self._buscar_entrega(entrega_id))

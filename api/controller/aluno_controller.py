@@ -1,9 +1,9 @@
 # CAMADA: Controller
 # RESPONSABILIDADE: receber as requisições de /alunos, repassar ao AlunoService
 #                   e devolver o DTO com o status certo.
-# ROTAS ATENDIDAS: POST /alunos.
-# SITUAÇÃO: implementada em parte. GET, PUT e DELETE de /alunos entram na
-#           próxima etapa.
+# ROTAS ATENDIDAS: POST /alunos e GET /alunos.
+# SITUAÇÃO: implementada em parte. GET por id, PUT e DELETE de /alunos entram
+#           na próxima etapa.
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
@@ -30,3 +30,8 @@ def criar(
     service: Annotated[AlunoService, Depends()],
 ) -> AlunoResponseDTO:
     return service.criar(request)
+
+
+@router.get("", summary="Lista os alunos")
+def listar(service: Annotated[AlunoService, Depends()]) -> list[AlunoResponseDTO]:
+    return service.listar()

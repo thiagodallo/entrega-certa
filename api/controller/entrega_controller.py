@@ -2,9 +2,9 @@
 # RESPONSABILIDADE: receber as requisições de /entregas, repassar ao
 #                   EntregaService e devolver o DTO com o status certo. Nenhuma
 #                   regra é decidida aqui.
-# ROTAS ATENDIDAS: POST /entregas, GET /entregas/{id}, PUT /entregas/{id}/reenvio
-#                  e PUT /entregas/{id}/correcao.
-# SITUAÇÃO: implementada. A listagem (GET /entregas) entra na próxima etapa.
+# ROTAS ATENDIDAS: POST /entregas, GET /entregas, GET /entregas/{id},
+#                  PUT /entregas/{id}/reenvio e PUT /entregas/{id}/correcao.
+# SITUAÇÃO: implementada.
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
@@ -33,6 +33,11 @@ def registrar(
     service: Annotated[EntregaService, Depends()],
 ) -> EntregaResponseDTO:
     return service.registrar(request)
+
+
+@router.get("", summary="Lista as entregas")
+def listar(service: Annotated[EntregaService, Depends()]) -> list[EntregaResponseDTO]:
+    return service.listar()
 
 
 @router.get(

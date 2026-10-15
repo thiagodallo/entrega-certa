@@ -3,9 +3,9 @@
 # REGRAS: nenhuma regra numerada. Garante que a turma existe (404) e que o
 #         e-mail não está em uso por outro aluno (400). O aluno cadastrado aqui
 #         é o que a R1 confere em EntregaService.
-# ROTAS ATENDIDAS: POST /alunos.
-# SITUAÇÃO: implementada em parte. GET, PUT e DELETE de /alunos entram na
-#           próxima etapa.
+# ROTAS ATENDIDAS: POST /alunos e GET /alunos.
+# SITUAÇÃO: implementada em parte. GET por id, PUT e DELETE de /alunos entram
+#           na próxima etapa.
 from typing import Annotated
 
 from fastapi import Depends
@@ -38,3 +38,6 @@ class AlunoService:
             raise RegraDeNegocioException("Já existe um aluno com este e-mail")
         aluno = self.repository.save(self.mapper.to_entity(request, turma))
         return self.mapper.to_response(aluno)
+
+    def listar(self) -> list[AlunoResponseDTO]:
+        return self.mapper.to_response_list(self.repository.find_all())

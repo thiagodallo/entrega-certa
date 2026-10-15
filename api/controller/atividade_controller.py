@@ -1,9 +1,9 @@
 # CAMADA: Controller
 # RESPONSABILIDADE: receber as requisições de /atividades, repassar ao
 #                   AtividadeService e devolver o DTO com o status certo.
-# ROTAS ATENDIDAS: POST /atividades.
-# SITUAÇÃO: implementada em parte. GET, PUT e DELETE de /atividades entram na
-#           próxima etapa.
+# ROTAS ATENDIDAS: POST /atividades e GET /atividades.
+# SITUAÇÃO: implementada em parte. GET por id, PUT e DELETE de /atividades
+#           entram na próxima etapa.
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
@@ -30,3 +30,8 @@ def criar(
     service: Annotated[AtividadeService, Depends()],
 ) -> AtividadeResponseDTO:
     return service.criar(request)
+
+
+@router.get("", summary="Lista as atividades")
+def listar(service: Annotated[AtividadeService, Depends()]) -> list[AtividadeResponseDTO]:
+    return service.listar()
