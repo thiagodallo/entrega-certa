@@ -180,9 +180,9 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 |---|---|
 | Desenho | Pronto: problema e regras neste README; modelo de domínio e contrato da API em `docs/`, iguais ao código |
 | Estrutura | As 4 entidades têm todas as camadas |
-| API e regras | A API simples de `/turmas`, os cadastros de alunos e de atividades e o registro, o reenvio e a correção de entregas funcionam, com `400` e `404`. As quatro regras, R1 a R4, estão implementadas no `EntregaService` |
+| API e regras | A API simples de `/turmas`, os cadastros e as listagens de alunos e de atividades, a listagem de entregas e o registro, o reenvio e a correção de entregas funcionam, com `400` e `404`. As quatro regras, R1 a R4, estão implementadas no `EntregaService` |
 
-**Ainda não funciona:** `GET /entregas`, `PUT` e `DELETE` de `/turmas` e as rotas de `/alunos` e de `/atividades` além do `POST`. Ficam para a próxima etapa, porque nenhuma regra depende delas.
+**Ainda não funciona:** `PUT` e `DELETE` de `/turmas` e as rotas de `/alunos` e de `/atividades` além do `POST` e da listagem. Ficam para a próxima etapa, porque nenhuma regra depende delas.
 
 ## Documentação
 

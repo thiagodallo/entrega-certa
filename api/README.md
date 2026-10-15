@@ -112,10 +112,14 @@ Atributos, tipos e o diagrama das tabelas estão em [docs/modelo-de-dominio.md](
 | `GET` | `/turmas` | Lista as turmas | `200` | Nenhum |
 | `GET` | `/turmas/{id}` | Busca uma turma | `200` | `404` |
 | `POST` | `/alunos` | Cadastra um aluno em uma turma | `201` | `400`, `404` |
+| `GET` | `/alunos` | Lista os alunos | `200` | Nenhum |
 | `POST` | `/atividades` | Cadastra uma atividade para uma turma | `201` | `400`, `404` |
+| `GET` | `/atividades` | Lista as atividades | `200` | Nenhum |
 | `POST` | `/entregas` | Registra uma entrega, aplicando R1, R2 e R3 | `201` | `400`, `404` |
+| `GET` | `/entregas` | Lista as entregas | `200` | Nenhum |
 | `GET` | `/entregas/{id}` | Busca uma entrega | `200` | `404` |
 | `PUT` | `/entregas/{id}/reenvio` | Troca o link de uma entrega não corrigida, aplicando R2 e R3 | `200` | `400`, `404` |
+| `PUT` | `/entregas/{id}/correcao` | Lança a nota de uma entrega, aplicando R4 | `200` | `400`, `404` |
 
 ### Erros
 
@@ -141,9 +145,8 @@ Estão no contrato, mas ainda não respondem.
 | Recurso | O que vai fazer |
 |---|---|
 | `/turmas` | Atualizar e remover turmas (`PUT` e `DELETE`) |
-| `/alunos` | Listar, buscar, atualizar e remover alunos |
-| `/atividades` | Listar, buscar, atualizar e remover atividades |
-| `/entregas` | Corrigir uma entrega, aplicando R4, e listar as entregas |
+| `/alunos` | Buscar, atualizar e remover alunos |
+| `/atividades` | Buscar, atualizar e remover atividades |
 
 O contrato completo, com todas as rotas e os DTOs, está em [docs/contrato-da-api.md](docs/contrato-da-api.md).
 
@@ -174,11 +177,11 @@ Para parar: `Ctrl+C` na API e `docker compose stop` no banco. Para apagar o banc
 
 | Parte | Situação |
 |---|---|
-| Desenho | Em andamento: problema e regras neste README; primeira versão do modelo e do contrato em `docs/` |
+| Desenho | Pronto: problema e regras neste README; modelo de domínio e contrato da API em `docs/`, iguais ao código |
 | Estrutura | As 4 entidades têm todas as camadas |
-| API e regras | A API simples de `/turmas`, os cadastros de alunos e de atividades e o registro e o reenvio de entregas funcionam, com `400` e `404`. R1, R2 e R3 estão implementadas; a R4 ainda não |
+| API e regras | A API simples de `/turmas`, os cadastros e as listagens de alunos e de atividades, a listagem de entregas e o registro, o reenvio e a correção de entregas funcionam, com `400` e `404`. As quatro regras, R1 a R4, estão implementadas no `EntregaService` |
 
-**Ainda não funciona:** `PUT /entregas/{id}/correcao` (R4), `GET /entregas`, `PUT` e `DELETE` de `/turmas` e as rotas de `/alunos` e de `/atividades` além do `POST`.
+**Ainda não funciona:** `PUT` e `DELETE` de `/turmas` e as rotas de `/alunos` e de `/atividades` além do `POST` e da listagem.
 
 ## Documentação
 

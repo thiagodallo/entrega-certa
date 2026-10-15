@@ -34,7 +34,7 @@ A API simples do projeto.
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
 | `POST` | `/alunos` | Cadastra um aluno em uma turma | `AlunoRequestDTO` | `AlunoResponseDTO` | `201` | `400`, `404` | sim |
-| `GET` | `/alunos` | Lista os alunos | Nenhuma | lista de `AlunoResponseDTO` | `200` | Nenhum | não |
+| `GET` | `/alunos` | Lista os alunos | Nenhuma | lista de `AlunoResponseDTO` | `200` | Nenhum | sim |
 | `GET` | `/alunos/{id}` | Busca um aluno | Nenhuma | `AlunoResponseDTO` | `200` | `404` | não |
 | `PUT` | `/alunos/{id}` | Atualiza um aluno | `AlunoRequestDTO` | `AlunoResponseDTO` | `200` | `400`, `404` | não |
 | `DELETE` | `/alunos/{id}` | Remove um aluno | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | não |
@@ -44,7 +44,7 @@ A API simples do projeto.
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
 | `POST` | `/atividades` | Cadastra uma atividade para uma turma | `AtividadeRequestDTO` | `AtividadeResponseDTO` | `201` | `400`, `404` | sim |
-| `GET` | `/atividades` | Lista as atividades | Nenhuma | lista de `AtividadeResponseDTO` | `200` | Nenhum | não |
+| `GET` | `/atividades` | Lista as atividades | Nenhuma | lista de `AtividadeResponseDTO` | `200` | Nenhum | sim |
 | `GET` | `/atividades/{id}` | Busca uma atividade | Nenhuma | `AtividadeResponseDTO` | `200` | `404` | não |
 | `PUT` | `/atividades/{id}` | Atualiza uma atividade | `AtividadeRequestDTO` | `AtividadeResponseDTO` | `200` | `400`, `404` | não |
 | `DELETE` | `/atividades/{id}` | Remove uma atividade | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | não |
@@ -55,7 +55,7 @@ A API simples do projeto.
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| `GET` | `/entregas` | Lista as entregas | Nenhuma | lista de `EntregaResponseDTO` | `200` | Nenhum | não |
+| `GET` | `/entregas` | Lista as entregas | Nenhuma | lista de `EntregaResponseDTO` | `200` | Nenhum | sim |
 | `GET` | `/entregas/{id}` | Busca uma entrega | Nenhuma | `EntregaResponseDTO` | `200` | `404` | sim |
 
 ### Rotas que não são CRUD
